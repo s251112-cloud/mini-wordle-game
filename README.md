@@ -38,11 +38,10 @@ A modern, responsive, browser-based **Mini-Wordle Game** built with pure HTML5, 
 
 ---
 
-## 👥 Collaborators
+## 👥 Collaborator
 
 Co-created by:
 - **Celine**
-- **Marco**
 
 ---
 
