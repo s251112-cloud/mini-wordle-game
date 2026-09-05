@@ -41,7 +41,7 @@ A modern, responsive, browser-based **Mini-Wordle Game** built with pure HTML5, 
 ## 👥 Collaborator
 
 Co-created by:
-- **Celine**
+- **Celine0291**
 
 ---
 
