@@ -38,6 +38,10 @@ A modern, responsive, browser-based **Mini-Wordle Game** built with pure HTML5, 
 
 ---
 
+✅I had just fixed the error of without giving any answer at the end when the game had just finished:
+<img width="2360" height="1370" alt="image" src="https://github.com/user-attachments/assets/f01c0542-e975-4588-ac86-459f6e6d9148" />
+
+
 ## 👥 Collaborator
 
 Co-created by:
