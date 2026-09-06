@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mini Wordle Game</title>
+  <title>Mini Wordle - NYT Style (No Repeats)</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -105,10 +105,19 @@
   <div id="message">Guess the 5-letter word!</div>
   <div id="board"></div>
   <div id="keyboard"></div>
-  <button id="restart-btn" onclick="initGame()">PLAY AGAIN</button>
+  <button id="restart-btn" onclick="initGame()">NEXT WORD</button>
 
   <script>
-    const WORD_POOL = ["STALE", "LEASE", "CLASS", "BILLY", "SPITS", "GLASS", "LOGIC", "SMART", "CLOUD", "GRAIN", "PLANT"];
+    // Expanded official NYT Wordle-style dictionary pool
+    const WORD_POOL = [
+      "SALET", "CRANE", "STALE", "LEASE", "CLASS", "BILLY", "SPITS", "GLASS", "LOGIC", "SMART",
+      "CLOUD", "GRAIN", "PLANT", "SHARK", "TRAIN", "FLASH", "PRIME", "STAGE", "REACT", "TRACE",
+      "SLATE", "AUDIO", "HOUSE", "RAISE", "PILOT", "SHINE", "MAPLE", "LIGHT", "SWEET", "HEART",
+      "WATER", "DREAM", "FLAME", "GREAT", "LEMON", "MUSIC", "NIGHT", "OCEAN", "PEACH", "QUEEN",
+      "RIVER", "STONE", "TIGER", "WORLD", "YOUTH", "BRAVE", "CLEAN", "DRIVE", "EARTH", "FRUIT",
+      "GREEN", "HAPPY", "IMAGE", "JUICE", "KNIFE", "LUCKY", "MONEY", "NOBLE", "POWER", "ROYAL"
+    ];
+
     let targetWord = "";
     let currentRow = 0;
     let currentTile = 0;
@@ -126,8 +135,39 @@
       ["ENTER","Z","X","C","V","B","N","M","DEL"]
     ];
 
+    // Read played words from browser memory
+    function getPlayedWords() {
+      const stored = localStorage.getItem("wordle_played_words");
+      return stored ? JSON.parse(stored) : [];
+    }
+
+    // Save newly played word to browser memory
+    function savePlayedWord(word) {
+      const played = getPlayedWords();
+      if (!played.includes(word)) {
+        played.push(word);
+        localStorage.setItem("wordle_played_words", JSON.stringify(played));
+      }
+    }
+
+    function selectUniqueWord() {
+      const played = getPlayedWords();
+      // Filter out words that have already been played
+      let availableWords = WORD_POOL.filter(w => !played.includes(w));
+
+      // If all words have been played, reset history to start fresh
+      if (availableWords.length === 0) {
+        localStorage.removeItem("wordle_played_words");
+        availableWords = [...WORD_POOL];
+      }
+
+      const selected = availableWords[Math.floor(Math.random() * availableWords.length)];
+      savePlayedWord(selected);
+      return selected;
+    }
+
     function initGame() {
-      targetWord = WORD_POOL[Math.floor(Math.random() * WORD_POOL.length)];
+      targetWord = selectUniqueWord();
       currentRow = 0;
       currentTile = 0;
       isGameOver = false;
